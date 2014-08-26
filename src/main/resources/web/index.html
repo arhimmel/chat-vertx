@@ -1,5 +1,43 @@
 <html>
     <body>
         <h1>Hello</h1>
+
+        <div id="container">
+
+        </div>
+
+        <textarea id="messages"></textarea>
+        <h3 id="status">Disconnected</h3>
+
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="bower_components/bower-sockjs-client/sockjs.min.js"></script>
+        <script src="bower_components/vertxbus/vertxbus.js"></script>
+
+        <script>
+            var eb = null;
+
+            function openConnection() {
+                if (!eb) {
+                    eb = new vertx.EventBus("http://localhost:8080/eventbus");
+                }
+
+                eb.onopen = function() {
+                    $("#status").text("Connected");
+                    eb.registerHandler("chat.messages", function(message, replier){
+                        $("#messages").text($("#messages").text() + message.test);
+                        console.log('message', message.test);
+                    })
+                };
+
+                eb.onmessage = function(e) {
+                  console.log('message', e.data);
+                };
+            }
+
+            $(document).ready(function() {
+                openConnection();
+
+            });
+        </script>
     </body>
 </html>
