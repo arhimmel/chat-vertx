@@ -1,5 +1,10 @@
 // Example JSON config file
 
 {
-  "foo": "bar"
+  "foo": "bar",
+
+    "port" : 8081,
+    "jersey": {
+        "port": 8080
+    }
 }
